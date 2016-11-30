@@ -1,0 +1,77 @@
+
+html {
+    background: white;
+    color: black;
+    font-size: 50px;
+}
+
+a:focus, *:focus {
+    outline: none;
+}
+
+body {
+    font-family: "Lato", "Hiragino Sans GB", "Helvetica Neue", "Micrsoft YaHei", sans-serif;
+    background-color: #f7f8f9;
+}
+
+.well {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.red_1 {
+    background_color: #234562;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.header {
+    background-color: #0a8ddf;
+    font-size: 0.72rem;
+    line-height: 1.2rem;
+    height: 1.2rem;
+    text-align: center;
+    color: white;
+    font-weight: bolder;
+}
+
+.list_i {
+    float: left;
+    height: 1rem;
+    width: 33.3333%;
+    border-bottom: 1px solid gainsboro;
+    border-right: 1px solid gainsboro;
+    overflow: hidden;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    display: inline-block;
+
+}
+
+.list_i span, a {
+    font-size: 0.35rem;
+    text-align: center;
+    line-height: 1rem;
+    height: 1rem;
+    display: inline-block;
+    width: 100%;
+}
+
+/*清浮动*/
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}
+
+a:active {
+    outline: none;
+}

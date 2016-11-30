@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="../css/base.css"/>
+    <link rel="stylesheet" href="../css/app.css"/>
+</head>
+<script src="../js/vue.js"></script>
+<script src="../js/vue-router.js"></script>
+<script>
+    // 获取屏幕大小，更新rem基准
+    (function () {
+        var currentWidth = document.documentElement.clientWidth || document.body.clientWidth,
+                currentHeight = document.documentElement.clientHeight || document.body.clientHeight,
+                nFont = currentWidth * 50 / 375 + 'px';
+
+        getHtml = document.getElementsByTagName('html')[0];
+        getHtml.style.fontSize = nFont;
+    })();
+</script>
+
+<body>
+<div id="app">
+
+    <router-view></router-view>
+
+</div>
+<template id="header">
+
+
+</template>
+
+<template id="message">
+    <h2 class="header">第一页</h2>
+    <div class="clearfix">
+        <ul>
+            <li class="list_i">
+                <span>第一个</span>
+            </li>
+            <li class="list_i">
+                <span>第二个</span>
+            </li>
+            <li class="list_i">
+                <span>第三个</span>
+            </li>
+            <li class="list_i">
+                <span>点击=></span>
+            </li>
+            <li class="list_i">
+                <a v-link="{path: '/add'}">ADD界面</a>
+            </li>
+            <li class="list_i">
+                <a v-link="{path: '/select'}">select</a>
+            </li>
+
+        </ul>
+        <div>
+            <router-view></router-view>
+        </div>
+    </div>
+
+</template>
+<template id="add">
+
+    <h2 class="header">第二页</h2>
+    <div class="clearfix">
+        <ul>
+            <li class="list_i">
+                <span>第一个</span>
+            </li>
+            <li class="list_i">
+                <span>第二个</span>
+            </li>
+            <li class="list_i">
+                <span>第三个</span>
+            </li>
+            <li class="list_i">
+                <span>点击=></span>
+            </li>
+            <li class="list_i">
+                <a v-link="{ path: '/'}">返回第一夜</a>
+            </li>
+            <li class="list_i">
+                <a v-link="{ path: '/add/news',replace:true}">News</a>
+            </li>
+            <li class="list_i">
+                <a v-link="{ path: '/add/message',replace:true}">Messages</a>
+            </li>
+            <li class="list_i">
+                <a v-link="{path: '/select', append:false}">Select</a>
+            </li>
+
+        </ul>
+
+    </div>
+    <div>
+        <router-view></router-view>
+    </div>
+</template>
+<template id="select">
+
+    <h2 class="header">第三页</h2>
+    <div class="clearfix">
+        <ul>
+            <li class="list_i">
+                <span>第一个</span>
+            </li>
+            <li class="list_i">
+                <span>第二个</span>
+            </li>
+            <li class="list_i">
+                <span>第三个</span>
+            </li>
+
+            <li class="list_i">
+                <span>点击=></span>
+            </li>
+            <li class="list_i">
+                <a v-link="{ path: '/'}">返回第一夜</a>
+            </li>
+            <li class="list_i">
+                <a v-link="{path: '/add'}">ADD</a>
+            </li>
+        </ul>
+
+    </div>
+    <div>
+        <router-view></router-view>
+    </div>
+</template>
+<template id="news">
+    <div>
+        <ul>
+            <li class="list_i">
+                <a v-link="{ name: 'detail', params: {id: '01'} ,replace:true}">News 01</a>
+            </li>
+            <li class="list_i">
+                <a v-link="{ path: '/add/news/detail/02' ,replace:true}">News 02</a>
+            </li>
+            <li class="list_i">
+                <a v-link="{ path: '/add/news/detail/03' ,replace:true}">News 03</a>
+            </li>
+        </ul>
+        <div>
+            <router-view></router-view>
+        </div>
+    </div>
+</template>
+
+<template id="message1">
+    <ul>
+        <li><a>Message 01</a></li>
+        <li><a>Message 02</a></li>
+        <li><a>Message 03</a></li>
+    </ul>
+</template>
+
+<template id="newsDetail">
+    <div>
+        News Detail - {{$route.params.id}} ......
+    </div>
+    <div>
+        <p>当前路径：{{$route.path}}</p>
+        <p>当前参数：{{$route.params | json}}</p>
+        <p>路由名称：{{$route.name}}</p>
+        <p>路由查询参数：{{$route.query | json}}</p>
+        <p>路由匹配项：{{$route.matched | json}}</p>
+    </div>
+
+</template>
+
+
+</body>
+
+<script>
+
+    var Message = Vue.extend({
+        template: '#message'
+    });
+    var Add = Vue.extend({
+        template: '#add'
+    });
+    var Header = Vue.extend({
+        template: '#header'
+    });
+    var SLCT = Vue.extend({
+        template: '#select'
+    });
+
+    var News = Vue.extend({
+        template: '#news'
+    });
+
+    var Message1 = Vue.extend({
+        template: '#message1'
+    });
+    var NewsDetail = Vue.extend({
+        template: '#newsDetail'
+    });
+    //    hashbang: true,
+    //            history: true,
+    //            saveScrollPosition: true,
+    //            transitionOnLoad: true
+
+    var router = new VueRouter({
+                hashbang: false
+            })
+            ;
+    router.redirect({
+        '/': '/home'
+    });
+    router.map({
+        '/home': {
+            component: Message
+        },
+        '/add': {
+            component: Add,
+            subRoutes: {
+                '/news': {
+                    component: News,
+                    name: 'news',
+                    subRoutes: {
+                        'detail/:id': {
+                            name: 'detail',
+                            component: NewsDetail
+                        }
+                    }
+                },
+                '/message': {
+                    component: Message1
+                }
+            }
+        },
+        '/select': {
+            component: SLCT
+        }
+
+    });
+
+    var App = Vue.extend({});
+    router.start(App, '#app')
+</script>
+
+</html>

@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../css/vue_css.css" />
+</head>
+
+<body>
+
+<div id="app">
+    <table>
+        <tr>
+            <th colspan="3">父组件数据</td>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>{{ name }}</td>
+            <td><input type="text" v-model="name"/></td>
+        </tr>
+        <tr>
+            <td>age</td>
+            <td>{{ age }}</td>
+            <td><input type="text" v-model="age" /></td>
+        </tr>
+    </table>
+
+    <my-component v-bind:my-name="name" v-bind:my-age="age"></my-component>
+</div>
+<!--在父组件中使用子组件时，通过以下语法将数据传递给子组件：-->
+<!--<child-component v-bind:子组件prop="父组件数据属性"></child-component>-->
+<template id="myComponent">
+    <table>
+        <tr>
+            <th colspan="3">
+                子组件数据
+            </th>
+        </tr>
+        <tr>
+            <td>my name</td>
+            <td>{{ myName }}</td>
+            <td> <input v-model='myName'></td>
+        </tr>
+        <tr>
+            <td>my age</td>
+            <td>{{ myAge }}</td>
+            <td><input v-model='myAge'></td>
+
+        </tr>
+    </table>
+</template>
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            name: 'keepfool',
+            age: 28
+        },
+        components: {
+            'my-component': {
+                template: '#myComponent',
+                props: ['myName', 'myAge']
+            }
+        }
+    })
+</script>
+
+</html>

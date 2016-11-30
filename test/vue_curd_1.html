@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../css/vue_css.css"/>
+    <style>
+        /*
+         * 由于IE不支持<template>标签，所以template标签中的内容在IE下会直接显示出来。
+         * 将模板设为隐藏即可解决这个问题，template标签各浏览器支持请参考：http://caniuse.com/#feat=template
+         */
+        #grid-template {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div class="container">
+        <div class="form-group">
+            <label>Search</label>
+            <input type="text" class="search-input" v-model="searchQuery"/>
+        </div>
+    </div>
+    <!--绑定数据父组件数据，便于子组件的调用-->
+    <div class="container">
+        <simple-grid :data-list="people" :columns="columns" :search-key="searchQuery">
+        </simple-grid>
+    </div>
+</div>
+<template id="grid-template">
+    <table>
+        <thead>
+        <tr>
+            <!-- 遍历属性栏-->
+            <th v-for="col in columns">
+                <!-- capitalize首字母为大写-->
+                {{ col.name | capitalize}}
+            </th>
+            <th>
+                Delete
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 这里  filterBy searchKey 为了搜索数据 datalist 中数据，让 这个模板显示 datalist 和searchkey 相同的数据-->
+        <!--index 为-->
+        <tr v-for="(index,entry) in dataList | filterBy searchKey">
+            <td v-for="col in columns">
+                {{entry[col.name]}}
+            </td>
+            <td class="text-center">
+                <button class="btn-danger" @click="deleteItem(entry)">delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</template>
+
+<script src="../js/vue.js"></script>
+<script>
+    Vue.component('simple-grid', {
+        template: '#grid-template',
+        props: ['dataList', 'columns', 'searchKey'],
+        methods: {
+            deleteItem: function (entry) {
+                var data = this.dataList;
+                <!--item 相当与在这个数组中第item个对象-->
+                <!--i  相当与 这个在数组中第i的个-->
+                data.forEach(function (item, i) {
+                    if (item === entry) {
+                        <!--删除第i个对象-->
+                        data.splice(i, 1);
+                        return
+                    }
+                })
+            },
+        }
+    });
+
+    var demo = new Vue({
+        el: '#app',
+        data: {
+            searchQuery: '',
+            columns: [{name: 'name'}, {name: 'age'}, {name: 'sex'}],
+            people: [{name: 'Jack', age: 30, sex: 'Male'},
+                {name: 'Bill', age: 26, sex: 'Male'},
+                {name: 'Tracy', age: 22, sex: 'Female'},
+                {name: 'Chris', age: 36, sex: 'Male'}]
+        }
+    })
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #app {
+            max-width: 640px;
+            margin: 50px auto;
+        }
+
+        #parent-component, #child-component{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="app">
+    <parent-component></parent-component>
+</div>
+<template id="parent-component">
+    <h3>这是爸爸的数据： {{msg}}</h3>
+    <child-component>
+    </child-component>
+</template>
+<template id="child-component">
+    <h2>This is a child </h2>
+    <slot></slot>
+    <button v-on:click="showParentComponentData">显示父组件的数据</button>
+</template>
+
+<script src="../js/vue.js"></script>
+<script>
+    Vue.component('parent-component', {
+        template: '#parent-component',
+        components: {
+            'child-component': {
+                template: '#child-component',
+                methods: {
+                    showParentComponentData: function() {
+                        alert(this.$parent.name)
+                    }
+                }
+            }
+        },
+        data: function() {
+            return {
+                msg: 'parent component message',
+                name:'my name is jack'
+            }
+        }
+    });
+    new Vue({
+        el: '#app'
+    })
+</script>
+
+</body>
+
+</html>
+
+
+使用 $on() 监听事件；
+使用 $emit() 在它上面触发事件；
+使用 $dispatch() 派发事件，事件沿着父链冒泡；
+使用 $broadcast() 广播事件，事件向下传导给所有的后代。
